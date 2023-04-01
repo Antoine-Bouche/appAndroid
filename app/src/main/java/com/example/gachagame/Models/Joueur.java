@@ -1,19 +1,17 @@
 package com.example.gachagame.Models;
 
-import java.util.ArrayList;
-
 public class Joueur {
 
     private String pseudo;
     private String email;
     private String mot_de_passe;
-    private ArrayList<Compétence> listeCompétence;
+    private Compétence[] listeCompétence;
 
     public Joueur(String pseudo, String email, String mot_de_passe) {
         this.pseudo = pseudo;
         this.email = email;
         this.mot_de_passe = mot_de_passe;
-        this.listeCompétence = new ArrayList<>();
+        this.listeCompétence = new Compétence[4];
     }
 
     public String getPseudo() {
@@ -40,15 +38,15 @@ public class Joueur {
         this.mot_de_passe = mot_de_passe;
     }
 
-    public ArrayList<Compétence> getListeCompétence() {
+    public Compétence[] getListeCompétence() {
         return listeCompétence;
     }
 
-    public void setListeCompétence(ArrayList<Compétence> listeCompétence) {
+    public void setListeCompétence(Compétence[] listeCompétence) {
         this.listeCompétence = listeCompétence;
     }
 
-    public void addCompétence(Compétence comp) {
-        this.listeCompétence.add(comp);
+    public void addCompétence(Compétence compétence,int index) {
+        this.listeCompétence[index] = compétence;
     }
 }
