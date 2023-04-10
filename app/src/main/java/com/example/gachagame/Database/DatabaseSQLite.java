@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.gachagame.Models.Joueur;
 import com.example.gachagame.Models.Monster;
+import com.example.gachagame.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
     private static final String COLUMN_HP_MONSTER = "hp";
     private static final String COLUMN_ATK_MONSTER = "atk";
     private static final String COLUMN_GOLD_MONSTER = "gold";
+    private static final String COLUMN_DESCRIPTION_MONSTER = "description";
     private static final String COLUMN_IMAGE_MONSTER = "img";
 
     public DatabaseSQLite(Context context) {
@@ -54,6 +56,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
                 + COLUMN_HP_MONSTER + " INTEGER,"
                 + COLUMN_ATK_MONSTER + " INTEGER,"
                 + COLUMN_GOLD_MONSTER + " INTEGER,"
+                + COLUMN_DESCRIPTION_MONSTER + "TEXT,"
                 + COLUMN_IMAGE_MONSTER + " INTEGER"+")";
         db.execSQL(script2);
 
@@ -155,7 +158,12 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
     public void createDefaultMonsterIfNeed() {
         int count = this.getMonsterCount();
         if(count==0) {
-            //Ajouté tout les monstres
+            Monster monster1 = new Monster(1,
+                    "Demon",
+                    50, 5, 3,
+                    "Demon",
+                    R.drawable.monstre1);
+            this.addMonster(monster1);
         }
     }
 
@@ -170,6 +178,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
         values.put(COLUMN_HP_MONSTER,monster.getHp());
         values.put(COLUMN_ATK_MONSTER,monster.getAtk());
         values.put(COLUMN_GOLD_MONSTER,monster.getGold());
+        values.put(COLUMN_DESCRIPTION_MONSTER,monster.getDescription());
         values.put(COLUMN_IMAGE_MONSTER,monster.getImageResourceId());
 
         db.insert(TABLE_MONSTER,null,values);
@@ -181,7 +190,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
         Log.i(TAG,"DatabaseHelper.getMonster ..."+id);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_JOUEUR,new String[] {COLUMN_MONSTRE_ID
-                        ,COLUMN_NAME_MONSTER,COLUMN_HP_MONSTER,COLUMN_ATK_MONSTER,COLUMN_GOLD_MONSTER,COLUMN_IMAGE_MONSTER},COLUMN_MONSTRE_ID+"=?",
+                        ,COLUMN_NAME_MONSTER,COLUMN_HP_MONSTER,COLUMN_ATK_MONSTER,COLUMN_GOLD_MONSTER,COLUMN_DESCRIPTION_MONSTER,COLUMN_IMAGE_MONSTER},COLUMN_MONSTRE_ID+"=?",
                 new String[] { String.valueOf(id)},null,null,null,null);
 
         if(cursor!=null)
@@ -192,7 +201,8 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
                 ,Integer.parseInt(cursor.getString(2))
                 ,Integer.parseInt(cursor.getString(3))
                 ,Integer.parseInt(cursor.getString(4))
-                ,Integer.parseInt(cursor.getString(5)));
+                ,cursor.getString(5)
+                ,Integer.parseInt(cursor.getString(6)));
 
         return monster;
     }
@@ -216,7 +226,8 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
                 monster.setHp(Integer.parseInt(cursor.getString(2)));
                 monster.setAtk(Integer.parseInt(cursor.getString(3)));
                 monster.setGold(Integer.parseInt(cursor.getString(4)));
-                monster.setImageResourceId(Integer.parseInt(cursor.getString(5)));
+                monster.setDescription(cursor.getString(5));
+                monster.setImageResourceId(Integer.parseInt(cursor.getString(6)));
                 monsterList.add(monster);
             }while (cursor.moveToNext());
         }

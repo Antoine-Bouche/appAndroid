@@ -7,14 +7,16 @@ public class Monster {
     private int hp;
     private int atk;
     private int gold;
+    private String description;
     private int imageResourceId;
 
-    public Monster(int id, String name, int hp, int atk, int gold, int imageResourceId) {
+    public Monster(int id, String name, int hp, int atk, int gold,String description, int imageResourceId) {
         this.id = id;
         this.name = name;
         this.hp = hp;
         this.atk = atk;
         this.gold = gold;
+        this.description = description;
         this.imageResourceId = imageResourceId;
     }
 
@@ -70,11 +72,11 @@ public class Monster {
         this.imageResourceId = imageResourceId;
     }
 
-    @Override
-    public String toString() {
-        return name + " : " +
-                " hp=" + hp +
-                ", atk=" + atk +
-                '\n' ;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
