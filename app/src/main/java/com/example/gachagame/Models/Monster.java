@@ -65,4 +65,12 @@ public class Monster {
     public void setImageResourceId(int imageResourceId) {
         this.imageResourceId = imageResourceId;
     }
+
+    @Override
+    public String toString() {
+        return name + " : " +
+                " hp=" + hp +
+                ", atk=" + atk +
+                '\n' ;
+    }
 }

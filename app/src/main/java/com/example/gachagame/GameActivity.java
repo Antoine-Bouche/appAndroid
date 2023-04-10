@@ -3,11 +3,15 @@ package com.example.gachagame;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,14 +38,37 @@ public class GameActivity extends AppCompatActivity {
     private AnimationDrawable animation;
 
     private MonsterList monsterList;
+    private int indexMonstreCourant;
+    private Button encyclopediaButton;
+
+    private Button messageButton;
 
     private Handler handler;
     private Runnable attaquerRunnable;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        encyclopediaButton =findViewById(R.id.encyclopedia_button);
+        encyclopediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameActivity.this, EncyclopediaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        messageButton = findViewById(R.id.message_button);
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameActivity.this, MessageActivity.class);
+                startActivity(intent);
+            }
+        });
 
         monsterList = new MonsterList(initMonster());
         Monster m = monsterList.getCurrentMonstre();

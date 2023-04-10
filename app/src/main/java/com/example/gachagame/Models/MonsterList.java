@@ -45,4 +45,13 @@ public class MonsterList {
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex;
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (int i = 0; i < monsterList.size() ;i++){
+            result += monsterList.get(i).toString();
+        }
+        return result;
+    }
 }
