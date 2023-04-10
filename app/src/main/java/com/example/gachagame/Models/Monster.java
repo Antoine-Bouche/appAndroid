@@ -1,18 +1,37 @@
 package com.example.gachagame.Models;
 
 public class Monster {
-    private int hp;
-    private int atk;
+
     private int id;
     private String name;
+    private int hp;
+    private int atk;
+    private int gold;
     private int imageResourceId;
 
-    public Monster(int hp, int atk, int id, String name, int imageResourceId) {
-        this.hp = hp;
-        this.atk = atk;
+    public Monster(int id, String name, int hp, int atk, int gold, int imageResourceId) {
         this.id = id;
         this.name = name;
+        this.hp = hp;
+        this.atk = atk;
+        this.gold = gold;
         this.imageResourceId = imageResourceId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getHp() {
@@ -31,20 +50,12 @@ public class Monster {
         this.atk = atk;
     }
 
-    public int getId() {
-        return id;
+    public int getGold() {
+        return gold;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     public int getImageResourceId() {

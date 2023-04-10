@@ -133,13 +133,11 @@ public class GameActivity extends AppCompatActivity {
     private List<Monster> initMonster() {
 
         List<Monster> list = new ArrayList<>();
-        list.add(new Monster(100,1,1,"Gobelin",R.drawable.test));
-        list.add(new Monster(1,1,1,"Axel",R.drawable.test));
-        list.add(new Monster(10,2,1,"Mananta",R.drawable.test));
-        list.add(new Monster(100,1,1,"je suis raciste",R.drawable.knight1));
-        list.add(new Monster(100,10,1,"je suis raciste",R.drawable.test));
-        list.add(new Monster(100,10,1,"je suis raciste",R.drawable.test));
-        list.add(new Monster(100,10,1,"je suis raciste",R.drawable.test));
+        list.add(new Monster(1,"Connnard",10,1,1,R.drawable.test));
+        list.add(new Monster(2,"Connnard",10,2,2,R.drawable.test));
+        list.add(new Monster(3,"Connnard",10,3,4,R.drawable.test));
+        list.add(new Monster(4,"Connnard",10,4,5,R.drawable.test));
+        list.add(new Monster(5,"Connnard",100,5,1,R.drawable.test));
 
         return list;
     }

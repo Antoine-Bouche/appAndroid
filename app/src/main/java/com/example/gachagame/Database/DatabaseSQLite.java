@@ -87,6 +87,20 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
         return joueur;
     }
 
+    public void updateJoueurGold(int id,int gold) {
+        Log.i(TAG, "DatabaseHelper.updateJoueurStats ...");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_GOLD, gold);
+
+        db.update(TABLE_JOUEUR, values, COLUMN_JOUEUR_ID + "=?", new String[]{String.valueOf(id)});
+
+        db.close();
+    }
+
     public void updateJoueurStats(int id, int hp, int atk, int gold) {
         Log.i(TAG, "DatabaseHelper.updateJoueurStats ...");
 
