@@ -164,6 +164,12 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
                     "Demon",
                     R.drawable.monstre1);
             this.addMonster(monster1);
+            Monster monster2 = new Monster(2,
+                    "Dragon",
+                    10000, 500, 300,
+                    "Demon",
+                    R.drawable.monstre2);
+            this.addMonster(monster2);
         }
     }
 

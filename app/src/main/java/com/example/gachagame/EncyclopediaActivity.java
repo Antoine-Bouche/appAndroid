@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gachagame.Database.DatabaseSQLite;
 import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
 
@@ -30,9 +31,9 @@ public class EncyclopediaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_encyclopedia);
         encyclopedia = findViewById(R.id.listView);
 
-        monsterList= new MonsterList();
-        monsterList.getMonsterList().add(new Monster(1,"gobelin",50,5,2,R.drawable.monstre1));
-        monsterList.getMonsterList().add(new Monster(2,"loup",50,5,2,R.drawable.monstre1));
+        DatabaseSQLite db = new DatabaseSQLite(this);
+
+        monsterList= new MonsterList(db.getAllMonster());
 
 
         List<String> monsterNames = new ArrayList<>();
