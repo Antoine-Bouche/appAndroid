@@ -99,11 +99,6 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-
-
-
-    }
-
     private List<Monster> initMonster() {
 
         List<Monster> list = new ArrayList<>();
