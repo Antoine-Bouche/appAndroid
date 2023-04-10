@@ -28,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
     private ProgressBar monstre_healthbar;
     private ProgressBar hero_healthbar;
     private ImageView heroImage;
+    private ImageView image_monstre;
     private AnimationDrawable animation;
 
     private MonsterList monsterList;
@@ -47,6 +48,7 @@ public class GameActivity extends AppCompatActivity {
 
         nom_monstre = findViewById(R.id.nom_monstre);
         monstre_healthbar = findViewById(R.id.monstre_healthbar);
+        image_monstre = findViewById(R.id.image_monstre);
 
         hero_healthbar = findViewById(R.id.hero_healthbar);
         heroImage = findViewById(R.id.hero_image);
@@ -56,8 +58,9 @@ public class GameActivity extends AppCompatActivity {
         nom_monstre.setText(m.getName());
         monstre_healthbar.setMax(m.getHp());
         monstre_healthbar.setProgress(m.getHp());
+        image_monstre.setImageResource(m.getImageResourceId());
 
-        Joueur j = new Joueur("Ma bite",10000,10,1);
+        Joueur j = new Joueur(1,10000,10);
 
 
         hero_healthbar.setMax(j.getHp());
@@ -81,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
                         nom_monstre.setText(newCurrentMonster.getName());
                         monstre_healthbar.setMax(newCurrentMonster.getHp());
                         monstre_healthbar.setProgress(newCurrentMonster.getHp());
+                        image_monstre.setImageResource(newCurrentMonster.getImageResourceId());
                     } else {
                         handler.removeCallbacks(attaquerRunnable);
                         endGame();
@@ -127,7 +131,7 @@ public class GameActivity extends AppCompatActivity {
         list.add(new Monster(100,100,1,"Gobelin",R.drawable.test));
         list.add(new Monster(1,1,1,"Axel",R.drawable.test));
         list.add(new Monster(10,2,1,"Mananta",R.drawable.test));
-        list.add(new Monster(100,100,1,"je suis raciste",R.drawable.test));
+        list.add(new Monster(100,100,1,"je suis raciste",R.drawable.knight1));
         list.add(new Monster(100,100,1,"je suis raciste",R.drawable.test));
         list.add(new Monster(100,100,1,"je suis raciste",R.drawable.test));
         list.add(new Monster(100,100,1,"je suis raciste",R.drawable.test));

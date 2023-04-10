@@ -1,29 +1,44 @@
 package com.example.gachagame.Models;
 
-public class Joueur extends Monster {
+public class Joueur {
 
-    private String pseudo;
-    private Inventory inventory;
-    private int gold;
-    private int diamion;
-    private Compétence[] listeCompétence;
+    private int id;
     private int hp;
     private int atk;
-    private int xp;
-    private int id;
+    private Compétence[] listeCompétence;
+    private int gold;
 
-
-    public Joueur(String pseudo, int hp, int atk, int id) {
-        super(hp,atk,id,pseudo);
+    public Joueur(int id, int hp, int atk) {
+        this.id = id;
+        this.hp = hp;
+        this.atk = atk;
+        this.id = id;
         this.listeCompétence = new Compétence[4];
+        this.gold = 0;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public int getHp() {
+        return hp;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getAtk() {
+        return atk;
+    }
+
+    public void setAtk(int atk) {
+        this.atk = atk;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Compétence[] getListeCompétence() {
@@ -34,7 +49,11 @@ public class Joueur extends Monster {
         this.listeCompétence = listeCompétence;
     }
 
-    public void addCompétence(Compétence compétence,int index) {
-        this.listeCompétence[index] = compétence;
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 }
