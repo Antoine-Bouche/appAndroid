@@ -30,6 +30,7 @@ public class GameActivity extends AppCompatActivity {
     private ProgressBar hero_healthbar;
     private ImageView heroImage;
     private ImageView image_monstre;
+    private TextView gold;
     private AnimationDrawable animation;
 
     private MonsterList monsterList;
@@ -50,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
         nom_monstre = findViewById(R.id.nom_monstre);
         monstre_healthbar = findViewById(R.id.monstre_healthbar);
         image_monstre = findViewById(R.id.image_monstre);
-
+        gold = findViewById(R.id.gold);
         hero_healthbar = findViewById(R.id.hero_healthbar);
         heroImage = findViewById(R.id.hero_image);
         heroImage.setBackgroundResource(R.drawable.knight_animation);
@@ -67,6 +68,7 @@ public class GameActivity extends AppCompatActivity {
 
         hero_healthbar.setMax(j.getHp());
         hero_healthbar.setProgress(j.getHp());
+        gold.setText(j.getGold()+"");
 
         gamePanel.setOnClickListener(new View.OnClickListener() {
             @Override
