@@ -18,6 +18,10 @@ public class Monster {
         this.imageResourceId = imageResourceId;
     }
 
+    public Monster() {
+
+    }
+
     public int getId() {
         return id;
     }

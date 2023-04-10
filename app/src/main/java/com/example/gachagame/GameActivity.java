@@ -3,16 +3,13 @@ package com.example.gachagame;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,15 +35,12 @@ public class GameActivity extends AppCompatActivity {
     private AnimationDrawable animation;
 
     private MonsterList monsterList;
-    private int indexMonstreCourant;
     private Button encyclopediaButton;
 
     private Button messageButton;
 
     private Handler handler;
     private Runnable attaquerRunnable;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
                     db.updateJoueurGold(1,updateGold);
                     gold.setText(j.getGold()+"");
                     if (monsterList.getCurrentIndex() < monsterList.getNumberOfMonstres() - 1) {
-                        monsterList.setCurrentIndex(monsterList.getCurrentIndex()+1);
+                        monsterList.nextMonster();
                         Monster newCurrentMonster = monsterList.getCurrentMonstre();
                         nom_monstre.setText(newCurrentMonster.getName());
                         monstre_healthbar.setMax(newCurrentMonster.getHp());
@@ -163,11 +157,11 @@ public class GameActivity extends AppCompatActivity {
     private List<Monster> initMonster() {
 
         List<Monster> list = new ArrayList<>();
-        list.add(new Monster(1,"Connnard",10,1,1,R.drawable.test));
-        list.add(new Monster(2,"Connnard",10,2,2,R.drawable.test));
-        list.add(new Monster(3,"Connnard",10,3,4,R.drawable.test));
-        list.add(new Monster(4,"Connnard",10,4,5,R.drawable.test));
-        list.add(new Monster(5,"Connnard",100,5,1,R.drawable.test));
+        list.add(new Monster(1,"Connnard",10,1,1,R.drawable.monstre1));
+        list.add(new Monster(2,"Connnard",10,2,2,R.drawable.monstre1));
+        list.add(new Monster(3,"Connnard",10,3,4,R.drawable.monstre1));
+        list.add(new Monster(4,"Connnard",10,4,5,R.drawable.monstre1));
+        list.add(new Monster(5,"Connnard",100,5,1,R.drawable.monstre1));
 
         return list;
     }
