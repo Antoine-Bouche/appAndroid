@@ -105,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
         list.add(new Monster(100,10,1,"Gobelin"));
         list.add(new Monster(1,1,1,"Axel"));
         list.add(new Monster(10,2,1,"Mananta"));
-        list.add(new Monster(1000,1000,1,"je suis raciste"));
+        list.add(new Monster(1000,100,1,"je suis raciste"));
 
         return list;
     }
