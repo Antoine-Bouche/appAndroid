@@ -67,7 +67,6 @@ public class MonsterDetailsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Bitmap bp = (Bitmap) data.getExtras().get("data");
                 this.imageView.setImageBitmap(bp);
-                Toast.makeText(this, "hmmmmmmmmm", Toast.LENGTH_SHORT).show();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG).show();
             } else {
