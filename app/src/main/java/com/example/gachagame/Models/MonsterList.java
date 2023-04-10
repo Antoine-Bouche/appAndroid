@@ -29,4 +29,20 @@ public class MonsterList {
     public int getNumberOfMonstres() {
         return monsterList.size();
     }
+
+    public List<Monster> getMonsterList() {
+        return monsterList;
+    }
+
+    public void setMonsterList(List<Monster> monsterList) {
+        this.monsterList = monsterList;
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
+    }
 }
