@@ -17,6 +17,15 @@ public class Joueur {
         this.gold = 0;
     }
 
+    public Joueur(int id, int hp, int atk,int gold) {
+        this.id = id;
+        this.hp = hp;
+        this.atk = atk;
+        this.id = id;
+        this.listeCompétence = new Compétence[4];
+        this.gold = gold;
+    }
+
     public int getHp() {
         return hp;
     }

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.gachagame.Database.DatabaseSQLite;
 import com.example.gachagame.Models.Joueur;
 import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
@@ -60,8 +61,9 @@ public class GameActivity extends AppCompatActivity {
         monstre_healthbar.setProgress(m.getHp());
         image_monstre.setImageResource(m.getImageResourceId());
 
-        Joueur j = new Joueur(1,10000,10);
-
+        DatabaseSQLite db = new DatabaseSQLite(this);
+        db.createDefaultJoueurIfNeed();
+        Joueur j = db.getJoueur(1);
 
         hero_healthbar.setMax(j.getHp());
         hero_healthbar.setProgress(j.getHp());
@@ -73,7 +75,8 @@ public class GameActivity extends AppCompatActivity {
                 knightAttackAnimation();
 
                 Monster monstreCourant = monsterList.getCurrentMonstre();
-                int newPV = monstreCourant.getHp() - 10;
+                Joueur j = db.getJoueur(1);
+                int newPV = monstreCourant.getHp() - j.getAtk();
                 monstreCourant.setHp(newPV);
                 monstre_healthbar.setProgress(newPV);
 
@@ -111,7 +114,7 @@ public class GameActivity extends AppCompatActivity {
                     handler.removeCallbacks(attaquerRunnable);
                     gameOver();
                 } else {
-                    handler.postDelayed(this, 5000);
+                    handler.postDelayed(this, 3000);
                 }
             }
         };
@@ -128,13 +131,13 @@ public class GameActivity extends AppCompatActivity {
     private List<Monster> initMonster() {
 
         List<Monster> list = new ArrayList<>();
-        list.add(new Monster(100,100,1,"Gobelin",R.drawable.test));
+        list.add(new Monster(100,1,1,"Gobelin",R.drawable.test));
         list.add(new Monster(1,1,1,"Axel",R.drawable.test));
         list.add(new Monster(10,2,1,"Mananta",R.drawable.test));
-        list.add(new Monster(100,100,1,"je suis raciste",R.drawable.knight1));
-        list.add(new Monster(100,100,1,"je suis raciste",R.drawable.test));
-        list.add(new Monster(100,100,1,"je suis raciste",R.drawable.test));
-        list.add(new Monster(100,100,1,"je suis raciste",R.drawable.test));
+        list.add(new Monster(100,1,1,"je suis raciste",R.drawable.knight1));
+        list.add(new Monster(100,10,1,"je suis raciste",R.drawable.test));
+        list.add(new Monster(100,10,1,"je suis raciste",R.drawable.test));
+        list.add(new Monster(100,10,1,"je suis raciste",R.drawable.test));
 
         return list;
     }

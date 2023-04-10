@@ -1,9 +1,14 @@
 package com.example.gachagame.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.gachagame.Models.Joueur;
 
 public class DatabaseSQLite extends SQLiteOpenHelper {
 
@@ -38,5 +43,76 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
         Log.i(TAG,"DatabaseHelper.onUpgrade ...");
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_JOUEUR);
         onCreate(db);
+    }
+
+    public void createDefaultJoueurIfNeed() {
+        int count = this.getJoueurCount();
+        if(count==0) {
+            Joueur joueur = new Joueur(1,50,5,0);
+            this.addJoueur(joueur);
+        }
+    }
+
+    public void addJoueur(Joueur joueur) {
+        Log.i(TAG,"DatabaseHelper.addJoueur ...");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_HP,joueur.getHp());
+        values.put(COLUMN_ATK,joueur.getAtk());
+        values.put(COLUMN_GOLD,joueur.getGold());
+
+        db.insert(TABLE_JOUEUR,null,values);
+
+        db.close();
+    }
+
+    public Joueur getJoueur(int id) {
+        Log.i(TAG,"DatabaseHelper.getJoueur ..."+id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_JOUEUR,new String[] {COLUMN_JOUEUR_ID
+                        ,COLUMN_HP,COLUMN_ATK,COLUMN_GOLD},COLUMN_JOUEUR_ID+"=?",
+                new String[] { String.valueOf(id)},null,null,null,null);
+
+        if(cursor!=null)
+            cursor.moveToFirst();
+
+        Joueur joueur = new Joueur(Integer.parseInt(cursor.getString(0))
+                ,Integer.parseInt(cursor.getString(1))
+                ,Integer.parseInt(cursor.getString(2))
+                ,Integer.parseInt(cursor.getString(3)));
+
+        return joueur;
+    }
+
+    public void updateJoueurStats(int id, int hp, int atk, int gold) {
+        Log.i(TAG, "DatabaseHelper.updateJoueurStats ...");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_HP, hp);
+        values.put(COLUMN_ATK, atk);
+        values.put(COLUMN_GOLD, gold);
+
+        db.update(TABLE_JOUEUR, values, COLUMN_JOUEUR_ID + "=?", new String[]{String.valueOf(id)});
+
+        db.close();
+    }
+
+    public int getJoueurCount() {
+        Log.i(TAG, "DatabaseHelper.getJoueurCount ...");
+
+        String countQuery = "SELECT * FROM " + TABLE_JOUEUR;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+
+        cursor.close();
+
+        return count;
     }
 }
