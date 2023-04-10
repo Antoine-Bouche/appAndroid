@@ -59,5 +59,21 @@ public class MonsterDetailsActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
+    } // When results returned
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == RESULT_OK) {
+                Bitmap bp = (Bitmap) data.getExtras().get("data");
+                this.imageView.setImageBitmap(bp);
+                Toast.makeText(this, "hmmmmmmmmm", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Action Failed", Toast.LENGTH_LONG).show();
+            }
     }
+
+
 }
