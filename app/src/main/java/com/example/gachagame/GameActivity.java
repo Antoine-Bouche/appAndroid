@@ -64,7 +64,10 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        monsterList = new MonsterList(initMonster());
+        DatabaseSQLite db = new DatabaseSQLite(this);
+        db.createDefaultMonsterIfNeed();
+
+        monsterList = new MonsterList(db.getAllMonster());
         Monster m = monsterList.getCurrentMonstre();
 
         gamePanel = findViewById(R.id.game_panel);
@@ -83,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
         monstre_healthbar.setProgress(m.getHp());
         image_monstre.setImageResource(m.getImageResourceId());
 
-        DatabaseSQLite db = new DatabaseSQLite(this);
+
         db.createDefaultJoueurIfNeed();
         Joueur j = db.getJoueur(1);
 
@@ -152,18 +155,6 @@ public class GameActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         animation.start();
-    }
-
-    private List<Monster> initMonster() {
-
-        List<Monster> list = new ArrayList<>();
-        list.add(new Monster(1,"Connnard",10,1,1,R.drawable.monstre1));
-        list.add(new Monster(2,"Connnard",10,2,2,R.drawable.monstre1));
-        list.add(new Monster(3,"Connnard",10,3,4,R.drawable.monstre1));
-        list.add(new Monster(4,"Connnard",10,4,5,R.drawable.monstre1));
-        list.add(new Monster(5,"Connnard",100,5,1,R.drawable.monstre1));
-
-        return list;
     }
 
     private void endGame() {
