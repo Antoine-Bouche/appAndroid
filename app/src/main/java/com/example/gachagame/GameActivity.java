@@ -49,7 +49,7 @@ public class GameActivity extends AppCompatActivity {
         monstre_healthbar.setMax(m.getHp());
         monstre_healthbar.setProgress(m.getHp());
 
-        Joueur j = new Joueur("Ma bite",10000,10,1);
+        Joueur j = new Joueur("Ma bite",1000,10,1);
 
         hero_healthbar.setMax(j.getHp());
         hero_healthbar.setProgress(j.getHp());
@@ -105,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
         list.add(new Monster(100,10,1,"Gobelin"));
         list.add(new Monster(1,1,1,"Axel"));
         list.add(new Monster(10,2,1,"Mananta"));
-        list.add(new Monster(1000,100,1,"je suis raciste"));
+        list.add(new Monster(1000,1000,1,"je suis raciste"));
 
         return list;
     }
