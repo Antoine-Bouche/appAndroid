@@ -1,12 +1,12 @@
 package com.example.gachagame.Models;
 
-public class Entity {
+public class Monster {
     private int hp;
     private int atk;
     private int id;
     private String name;
 
-    public Entity(int hp, int atk, int id, String name) {
+    public Monster(int hp, int atk, int id, String name) {
         this.hp =hp;
         this.atk = atk;
         this.id = id;

@@ -1,6 +1,6 @@
 package com.example.gachagame.Models;
 
-public class Joueur extends Entity{
+public class Joueur extends Monster {
 
     private String pseudo;
     private Inventory inventory;
