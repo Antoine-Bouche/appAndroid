@@ -83,6 +83,9 @@ public class GameActivity extends AppCompatActivity {
                 monstre_healthbar.setProgress(newPV);
 
                 if (newPV <= 0) {
+                    int updateGold = j.getGold()+monstreCourant.getGold();
+                    db.updateJoueurGold(1,updateGold);
+                    gold.setText(j.getGold()+"");
                     if (monsterList.getCurrentIndex() < monsterList.getNumberOfMonstres() - 1) {
                         monsterList.setCurrentIndex(monsterList.getCurrentIndex()+1);
                         Monster newCurrentMonster = monsterList.getCurrentMonstre();
