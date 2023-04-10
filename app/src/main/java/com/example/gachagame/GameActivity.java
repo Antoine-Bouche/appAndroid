@@ -73,6 +73,7 @@ public class GameActivity extends AppCompatActivity {
                         monstre_healthbar.setProgress(nouveauMonstreCourant.getHp());
                     } else {
                         Toast.makeText(GameActivity.this, "Fin du jeu", Toast.LENGTH_SHORT).show();
+                        handler.removeCallbacks(attaquerRunnable);
                     }
                 }
             }
@@ -92,7 +93,11 @@ public class GameActivity extends AppCompatActivity {
                         hero_healthbar.setProgress(newPV);
                     }
                 });
-                handler.postDelayed(this, 5000);
+                if (newPV <= 0) {
+                    handler.removeCallbacks(attaquerRunnable);
+                } else {
+                    handler.postDelayed(this, 5000);
+                }
             }
         };
         handler.postDelayed(attaquerRunnable, 5000);
@@ -108,5 +113,13 @@ public class GameActivity extends AppCompatActivity {
         list.add(new Monster(1000,100,1,"je suis raciste"));
 
         return list;
+    }
+
+    private void endGame() {
+
+    }
+
+    private void gameOver() {
+
     }
 }
