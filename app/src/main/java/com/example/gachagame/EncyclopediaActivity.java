@@ -31,10 +31,10 @@ public class EncyclopediaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_encyclopedia);
         encyclopedia = findViewById(R.id.listView);
 
-        DatabaseSQLite db = new DatabaseSQLite(this);
 
-        monsterList= new MonsterList(db.getAllMonster());
-
+        List<Monster> ml = new ArrayList<>();
+        ml.add(new Monster(1,"Djin",100,5,10,"T",R.drawable.monstre3));
+        monsterList = new MonsterList(ml);
 
         List<String> monsterNames = new ArrayList<>();
         for (Monster monster : monsterList.getMonsterList()) {

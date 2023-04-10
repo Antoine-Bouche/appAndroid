@@ -65,9 +65,10 @@ public class GameActivity extends AppCompatActivity {
         });
 
         DatabaseSQLite db = new DatabaseSQLite(this);
-        db.createDefaultMonsterIfNeed();
-
-        monsterList = new MonsterList(db.getAllMonster());
+        //db.createDefaultMonsterIfNeed();
+        List<Monster> ml = new ArrayList<>();
+        ml.add(new Monster(1,"Djin",100,5,10,"T",R.drawable.monstre3));
+        monsterList = new MonsterList(ml);
         Monster m = monsterList.getCurrentMonstre();
 
         gamePanel = findViewById(R.id.game_panel);
