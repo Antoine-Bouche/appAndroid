@@ -41,6 +41,8 @@ public class GameActivity extends AppCompatActivity {
 
     private Button messageButton;
 
+    private Button amelioButton;
+
     private Handler handler;
     private Runnable attaquerRunnable;
 
@@ -53,6 +55,15 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GameActivity.this, EncyclopediaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        amelioButton = findViewById(R.id.amelio_button);
+        amelioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameActivity.this, AmeliorationActivity.class);
                 startActivity(intent);
             }
         });
@@ -73,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
         MonsterDatabaseHelper monsterDatabaseHelper = new MonsterDatabaseHelper(this);
 
         monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
+        monsterList.getMonsterList().add(new Monster());
         Monster m = monsterList.getCurrentMonstre();
 
         gamePanel = findViewById(R.id.game_panel);
@@ -90,7 +102,6 @@ public class GameActivity extends AppCompatActivity {
         monstre_healthbar.setMax(m.getHp());
         monstre_healthbar.setProgress(m.getHp());
         image_monstre.setImageResource(m.getImageResourceId());
-
 
         db.createDefaultJoueurIfNeed();
         Joueur j = db.getJoueur(1);

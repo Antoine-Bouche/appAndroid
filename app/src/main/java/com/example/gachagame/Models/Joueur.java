@@ -8,6 +8,9 @@ public class Joueur {
     private Compétence[] listeCompétence;
     private int gold;
 
+    private final int hpDuDepart = 50;
+    private final int atkDuDepart = 5;
+
     public Joueur(int id, int hp, int atk) {
         this.id = id;
         this.hp = hp;
@@ -64,5 +67,13 @@ public class Joueur {
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public int getHpDuDepart() {
+        return hpDuDepart;
+    }
+
+    public int getAtkDuDepart() {
+        return atkDuDepart;
     }
 }

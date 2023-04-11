@@ -18,6 +18,9 @@
         android:theme="@style/Theme.GachaGame"
         tools:targetApi="31">
         <activity
+            android:name=".AmeliorationActivity"
+            android:exported="false" />
+        <activity
             android:name=".MonsterDetailsActivity"
             android:exported="false" />
         <activity
