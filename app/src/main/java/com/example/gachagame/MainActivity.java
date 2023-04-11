@@ -9,21 +9,41 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button;
+    private Button goPlay;
+    private Button goEncyclopedia;
+    private Button goSupport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.goPlay);
+        goPlay = findViewById(R.id.goPlay);
+        goEncyclopedia = findViewById(R.id.goEncyclopedia);
+        goSupport = findViewById(R.id.goContactUS);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        goPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,GameActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        goEncyclopedia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,EncyclopediaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        goSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,MessageActivity.class);
+                startActivity(intent);
             }
         });
     }

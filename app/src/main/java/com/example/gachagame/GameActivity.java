@@ -2,7 +2,10 @@ package com.example.gachagame;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
@@ -37,9 +40,6 @@ public class GameActivity extends AppCompatActivity {
     private AnimationDrawable animation;
 
     private MonsterList monsterList;
-    private Button encyclopediaButton;
-
-    private Button messageButton;
 
     private Handler handler;
     private Runnable attaquerRunnable;
@@ -48,23 +48,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        encyclopediaButton =findViewById(R.id.encyclopedia_button);
-        encyclopediaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GameActivity.this, EncyclopediaActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        messageButton = findViewById(R.id.message_button);
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GameActivity.this, MessageActivity.class);
-                startActivity(intent);
-            }
-        });
 
         DatabaseSQLite db = new DatabaseSQLite(this);
 
@@ -110,6 +93,10 @@ public class GameActivity extends AppCompatActivity {
                 int newPV = monstreCourant.getHp() - j.getAtk();
                 monstreCourant.setHp(newPV);
                 monstre_healthbar.setProgress(newPV);
+
+                if(j.getGold()%500==0) {
+                    sendNotification();
+                }
 
                 if (newPV <= 0) {
                     int updateGold = j.getGold()+monstreCourant.getGold();
@@ -207,6 +194,26 @@ public class GameActivity extends AppCompatActivity {
         heroImage.setBackground(animation);
         animation.start();
         animation.setOneShot(true);
+    }
+
+    public void sendNotification() {
+        // Créer un Intent pour l'action lorsque l'utilisateur clique sur la notification
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        // Créer la notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Money salutes you kid")
+                .setContentText("Tuez plus de monstres et devenez plus riche comme un vrai guerrier")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        // Envoyer la notification
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build()); // utilisez un ID unique pour identifier la notification
     }
 
 }
