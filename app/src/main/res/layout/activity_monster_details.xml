@@ -9,34 +9,159 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="40dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewMonsterId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="50dp" />
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="2ok00dp"
-            android:layout_height="175dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_foreground"
-            tools:ignore="VectorDrawableCompat" />
-        <Button
-            android:id="@+id/button_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="Capture Image" />
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Monster description : " />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="Name : "/>
+
+            <TextView
+                android:id="@+id/nomD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="Sample"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="HP : "/>
+
+            <TextView
+                android:id="@+id/hpD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="Sample"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="ATK : "/>
+
+            <TextView
+                android:id="@+id/atkD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="Sample"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="Amount of gold : "/>
+
+            <TextView
+                android:id="@+id/goldD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="Sample"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:gravity="center">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_margin="10dp"
+                android:text="Description : "/>
+
+            <TextView
+                android:id="@+id/tts_lire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="20dp"
+                android:text="Salut à tous"/>
+
+            <Button
+                android:id="@+id/lire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Read desc"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageD"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"/>
 
     </LinearLayout>
 

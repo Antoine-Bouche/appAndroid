@@ -12,10 +12,12 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gachagame.Database.DatabaseSQLite;
+import com.example.gachagame.Database.MonsterDatabaseHelper;
 import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -24,24 +26,23 @@ public class EncyclopediaActivity extends AppCompatActivity {
     private ListView encyclopedia;
     private ArrayAdapter<String> arrayAdapter;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encyclopedia);
         encyclopedia = findViewById(R.id.listView);
 
+        MonsterDatabaseHelper monsterDatabaseHelper = new MonsterDatabaseHelper(this);
 
-        List<Monster> ml = new ArrayList<>();
-        ml.add(new Monster(1,"Djin",100,5,10,"T",R.drawable.monstre3));
-        monsterList = new MonsterList(ml);
+        monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
 
-        List<String> monsterNames = new ArrayList<>();
+        HashSet<String> monsterNames = new HashSet<>();
         for (Monster monster : monsterList.getMonsterList()) {
             monsterNames.add(monster.getName());
         }
 
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, monsterNames);
+        ArrayList<String> uniqueMonsterNames = new ArrayList<>(monsterNames);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, uniqueMonsterNames);
         encyclopedia.setAdapter(arrayAdapter);
 
         encyclopedia.setOnItemClickListener(new AdapterView.OnItemClickListener() {

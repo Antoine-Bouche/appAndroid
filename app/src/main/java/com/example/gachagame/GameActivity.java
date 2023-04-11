@@ -3,6 +3,7 @@ package com.example.gachagame;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.gachagame.Database.DatabaseSQLite;
+import com.example.gachagame.Database.MonsterDatabaseHelper;
 import com.example.gachagame.Models.Joueur;
 import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
@@ -65,10 +67,12 @@ public class GameActivity extends AppCompatActivity {
         });
 
         DatabaseSQLite db = new DatabaseSQLite(this);
-        //db.createDefaultMonsterIfNeed();
+
         List<Monster> ml = new ArrayList<>();
-        ml.add(new Monster(1,"Djin",100,5,10,"T",R.drawable.monstre3));
-        monsterList = new MonsterList(ml);
+
+        MonsterDatabaseHelper monsterDatabaseHelper = new MonsterDatabaseHelper(this);
+
+        monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
         Monster m = monsterList.getCurrentMonstre();
 
         gamePanel = findViewById(R.id.game_panel);

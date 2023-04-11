@@ -4,75 +4,81 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import android.os.Bundle;
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.StrictMode;
-import android.provider.MediaStore;
-import android.util.Log;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import android.widget.Button;
 import android.widget.Toast;
-import android.widget.VideoView;
-import java.io.File;
+
+import com.example.gachagame.Database.MonsterDatabaseHelper;
+import com.example.gachagame.Models.Monster;
+
+import java.util.Locale;
+
 
 public class MonsterDetailsActivity extends AppCompatActivity {
-    private Button buttonImage;
-    private ImageView imageView;
 
-    private static final int REQUEST_ID_READ_WRITE_PERMISSION = 99;
-    private static final int REQUEST_ID_IMAGE_CAPTURE = 100;
+    private TextView name;
+    private TextView hp;
+    private TextView atk;
+    private TextView gold;
+    private Button read;
+    private TextView description;
+    TextToSpeech textToSpeech;
+    private ImageView image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monster_details);
-        this.buttonImage = (Button) this.findViewById(R.id.button_image);
-        this.imageView = (ImageView) this.findViewById(R.id.imageView);
+
+        MonsterDatabaseHelper db = new MonsterDatabaseHelper(this);
+
+        name = findViewById(R.id.nomD);
+        hp = findViewById(R.id.hpD);
+        atk = findViewById(R.id.atkD);
+        gold = findViewById(R.id.goldD);
+        description = findViewById(R.id.tts_lire);
+        read = findViewById(R.id.lire);
+        image = findViewById(R.id.imageD);
+
         Intent intent = getIntent();
 
-        // Vérifier si l'intention contient l'extra "monsterId"
-        if (intent.hasExtra("monsterId")) {
-            // Récupérer l'ID du monstre à partir de l'extra "monsterId"
-            int monsterId = intent.getIntExtra("monsterId", -1);
+        if(intent.hasExtra("monsterId")) {
+            int id = intent.getIntExtra("monsterId", -1);
+            Monster m = db.getMonster(id);
+            name.setText(m.getName());
+            hp.setText(m.getHp()+"");
+            atk.setText(m.getAtk()+"");
+            gold.setText(m.getGold()+"");
+            description.setText(m.getDescription());
+            image.setBackgroundResource(m.getImageResourceId());
 
-            // Faire quelque chose avec l'ID du monstre, par exemple l'afficher dans un TextView
-            TextView textView = findViewById(R.id.textViewMonsterId);
-            textView.setText("Monster ID: " + monsterId);
+        }else {
+            Toast.makeText(this, "Id does not exist : ERROR", Toast.LENGTH_SHORT).show();
+            finish();
         }
-        this.buttonImage.setOnClickListener(new Button.OnClickListener() {
+
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
-            public void onClick(View v) {
-                captureImage();
+            public void onInit(int i) {
+                if(i != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.ENGLISH);
+                }
             }
         });
-    }
-    private void captureImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        this.startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
-    } // When results returned
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-            if (resultCode == RESULT_OK) {
-                Bitmap bp = (Bitmap) data.getExtras().get("data");
-                this.imageView.setImageBitmap(bp);
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Action Failed", Toast.LENGTH_LONG).show();
+
+        read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String texte = description.getText().toString();
+                textToSpeech.speak(texte, TextToSpeech.QUEUE_FLUSH, null);
             }
+        });
+
     }
-
-
 }
