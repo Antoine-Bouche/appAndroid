@@ -18,7 +18,7 @@
             android:textSize="50dp" />
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="2ok00dp"
+            android:layout_width="200dp"
             android:layout_height="175dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
@@ -36,8 +36,5 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:text="Capture Image" />
-
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

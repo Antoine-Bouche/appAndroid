@@ -48,6 +48,25 @@ public class MonsterDetailsActivity extends AppCompatActivity {
             TextView textView = findViewById(R.id.textViewMonsterId);
             textView.setText("Monster ID: " + monsterId);
         }
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+
+            // Check if we have read/write permission
+            // Kiểm tra quyền đọc/ghi dữ liệu vào thiết bị lưu trữ ngoài.
+            int readPermission = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermission = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if (writePermission != PackageManager.PERMISSION_GRANTED ||
+                    readPermission != PackageManager.PERMISSION_GRANTED) {
+                // If don't have permission so prompt the user.
+                this.requestPermissions(
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_ID_READ_WRITE_PERMISSION
+                );
+            }
+        }
         this.buttonImage.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
