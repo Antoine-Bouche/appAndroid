@@ -52,7 +52,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
     public void createDefaultJoueurIfNeed() {
         int count = this.getJoueurCount();
         if(count==0) {
-            Joueur joueur = new Joueur(1,50,5,0);
+            Joueur joueur = new Joueur(1,500,5,0);
             this.addJoueur(joueur);
         }
     }
@@ -104,6 +104,36 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    public void updateJoueurHp(int id,int hp) {
+        Log.i(TAG, "DatabaseHelper.updateJoueurStats ...");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_GOLD, hp);
+
+        db.update(TABLE_JOUEUR, values, COLUMN_JOUEUR_ID + "=?", new String[]{String.valueOf(id)});
+
+        db.close();
+    }
+
+
+    public void updateJoueurAtk(int id,int atk) {
+        Log.i(TAG, "DatabaseHelper.updateJoueurStats ...");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_GOLD, atk);
+
+        db.update(TABLE_JOUEUR, values, COLUMN_JOUEUR_ID + "=?", new String[]{String.valueOf(id)});
+
+        db.close();
+    }
+
 
     public void updateJoueurStats(int id, int hp, int atk, int gold) {
         Log.i(TAG, "DatabaseHelper.updateJoueurStats ...");

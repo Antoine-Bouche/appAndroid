@@ -82,20 +82,7 @@ public class GameActivity extends AppCompatActivity {
         monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
         Monster m = monsterList.getCurrentMonstre();
 
-        gamePanel = findViewById(R.id.game_panel);
-
-        nom_monstre = findViewById(R.id.nom_monstre);
-        monstre_healthbar = findViewById(R.id.monstre_healthbar);
-        image_monstre = findViewById(R.id.image_monstre);
-        gold = findViewById(R.id.gold);
-        hero_healthbar = findViewById(R.id.hero_healthbar);
-        heroImage = findViewById(R.id.hero_image);
-        heroImage.setBackgroundResource(R.drawable.knight_animation);
-        animation = (AnimationDrawable) heroImage.getBackground();
-
-        changeBackground = findViewById(R.id.changeBackground);
-
-        stat = findViewById(R.id.stat);
+        initView();
 
         stat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,6 +222,20 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void initView() {
+        gamePanel = findViewById(R.id.game_panel);
+        nom_monstre = findViewById(R.id.nom_monstre);
+        monstre_healthbar = findViewById(R.id.monstre_healthbar);
+        image_monstre = findViewById(R.id.image_monstre);
+        gold = findViewById(R.id.gold);
+        hero_healthbar = findViewById(R.id.hero_healthbar);
+        heroImage = findViewById(R.id.hero_image);
+        heroImage.setBackgroundResource(R.drawable.knight_animation);
+        animation = (AnimationDrawable) heroImage.getBackground();
+        changeBackground = findViewById(R.id.changeBackground);
+        stat = findViewById(R.id.stat);
     }
 
     private void gameOver() {

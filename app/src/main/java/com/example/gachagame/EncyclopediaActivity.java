@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +18,7 @@ import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class EncyclopediaActivity extends AppCompatActivity {
         }
 
         ArrayList<String> uniqueMonsterNames = new ArrayList<>(monsterNames);
+
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, uniqueMonsterNames);
         encyclopedia.setAdapter(arrayAdapter);
 
@@ -54,6 +57,7 @@ public class EncyclopediaActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(EncyclopediaActivity.this, MonsterDetailsActivity.class);
                 intent.putExtra("monsterId", monsterId);
+                Toast.makeText(EncyclopediaActivity.this, "ID : " + monsterId , Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });

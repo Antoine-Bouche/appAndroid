@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gachagame.Database.DatabaseSQLite;
-import com.example.gachagame.Models.Inventory;
 import com.example.gachagame.Models.Joueur;
 
 public class AmeliorationActivity extends AppCompatActivity {
@@ -33,8 +32,6 @@ public class AmeliorationActivity extends AppCompatActivity {
         db.createDefaultJoueurIfNeed();
         Joueur j = db.getJoueur(1);
 
-        //costTextHp.setText((j.getHp()-j.getHpDuDepart())*(j.getHp()-j.getHpDuDepart())+"");
-        //costTextAtk.setText((j.getAtk()-j.getAtkDuDepart())*(j.getAtk()-j.getAtkDuDepart())+"");
 
         uppgradeButtonHp.setOnClickListener(new View.OnClickListener() {
             @Override
