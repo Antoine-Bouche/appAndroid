@@ -1,23 +1,34 @@
 package com.example.gachagame;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gachagame.Database.DatabaseSQLite;
 import com.example.gachagame.Database.MonsterDatabaseHelper;
@@ -25,11 +36,14 @@ import com.example.gachagame.Models.Joueur;
 import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
+
+    private static final int PICK_IMAGE_REQUEST = 1;
     private LinearLayout gamePanel;
     private TextView nom_monstre;
     private ProgressBar monstre_healthbar;
@@ -41,19 +55,29 @@ public class GameActivity extends AppCompatActivity {
 
     private MonsterList monsterList;
 
+    private Button changeBackground;
+    private Button stat;
+
     private Handler handler;
     private Runnable attaquerRunnable;
+    public static final String CHANNEL_1_ID = "channel1";
+    private NotificationManagerCompat notificationManagerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        this.createNotificationChannels();
+        this.notificationManagerCompat = NotificationManagerCompat.from(this);
+
+        sendOnChannel1();
+
         DatabaseSQLite db = new DatabaseSQLite(this);
 
-        List<Monster> ml = new ArrayList<>();
-
         MonsterDatabaseHelper monsterDatabaseHelper = new MonsterDatabaseHelper(this);
+
+        monsterDatabaseHelper.createDefaultMonsterIfNeed();
 
         monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
         Monster m = monsterList.getCurrentMonstre();
@@ -69,6 +93,26 @@ public class GameActivity extends AppCompatActivity {
         heroImage.setBackgroundResource(R.drawable.knight_animation);
         animation = (AnimationDrawable) heroImage.getBackground();
 
+        changeBackground = findViewById(R.id.changeBackground);
+
+        stat = findViewById(R.id.stat);
+
+        stat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameActivity.this,UpgradeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        changeBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+
         nom_monstre.setText(m.getName());
         monstre_healthbar.setMax(m.getHp());
         monstre_healthbar.setProgress(m.getHp());
@@ -82,6 +126,7 @@ public class GameActivity extends AppCompatActivity {
         hero_healthbar.setProgress(j.getHp());
         gold.setText(j.getGold()+"");
 
+
         gamePanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,14 +139,11 @@ public class GameActivity extends AppCompatActivity {
                 monstreCourant.setHp(newPV);
                 monstre_healthbar.setProgress(newPV);
 
-                if(j.getGold()%500==0) {
-                    sendNotification();
-                }
-
                 if (newPV <= 0) {
-                    int updateGold = j.getGold()+monstreCourant.getGold();
-                    db.updateJoueurGold(1,updateGold);
-                    gold.setText(j.getGold()+"");
+                    int updateGold = j.getGold() + monstreCourant.getGold();
+                    db.updateJoueurGold(1, updateGold);
+                    j.setGold(updateGold);
+                    gold.setText(j.getGold() + "");
                     if (monsterList.getCurrentIndex() < monsterList.getNumberOfMonstres() - 1) {
                         monsterList.nextMonster();
                         Monster newCurrentMonster = monsterList.getCurrentMonstre();
@@ -159,13 +201,40 @@ public class GameActivity extends AppCompatActivity {
         builder.setCancelable(false);
 
         builder.setPositiveButton("Close", (DialogInterface.OnClickListener) (dialog, which) -> {
-            Intent intent = new Intent(GameActivity.this,MainActivity.class);
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
         AlertDialog alertDialog = builder.create();
 
         alertDialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handler.postDelayed(attaquerRunnable, 3000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(attaquerRunnable);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+            try {
+                Drawable drawable = Drawable.createFromStream(getContentResolver().openInputStream(uri), uri.toString());
+                gamePanel.setBackground(drawable);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void gameOver() {
@@ -179,7 +248,7 @@ public class GameActivity extends AppCompatActivity {
 
         builder.setPositiveButton("Close", (DialogInterface.OnClickListener) (dialog, which) -> {
             handler.removeCallbacks(attaquerRunnable);
-            Intent intent = new Intent(GameActivity.this,MainActivity.class);
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
@@ -188,7 +257,7 @@ public class GameActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void  knightAttackAnimation() {
+    private void knightAttackAnimation() {
         animation = (AnimationDrawable) getResources().getDrawable(R.drawable.attack_animation, null);
         animation.setOneShot(true);
         heroImage.setBackground(animation);
@@ -196,24 +265,39 @@ public class GameActivity extends AppCompatActivity {
         animation.setOneShot(true);
     }
 
-    public void sendNotification() {
-        // Créer un Intent pour l'action lorsque l'utilisateur clique sur la notification
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+    private void createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_1_ID, "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is channel 1");
 
-        // Créer la notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+            NotificationManager manager = this.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+        }
+    }
+
+    private void sendOnChannel1() {
+
+        String title = "Welcome";
+        String message = "Just tap the monster and kill them";
+
+        Notification notification = new NotificationCompat.Builder(this,
+                GameActivity.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Money salutes you kid")
-                .setContentText("Tuez plus de monstres et devenez plus riche comme un vrai guerrier")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE).build();
 
-        // Envoyer la notification
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, builder.build()); // utilisez un ID unique pour identifier la notification
+        int notificationId = 1;
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        this.notificationManagerCompat.notify(notificationId, notification);
+
     }
 
 }
