@@ -1,6 +1,5 @@
 package com.example.gachagame.Database;
 
-import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.gachagame.Models.Joueur;
 import com.example.gachagame.Models.Monster;
 import com.example.gachagame.R;
 

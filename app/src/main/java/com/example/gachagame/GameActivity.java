@@ -51,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
     private ImageView heroImage;
     private ImageView image_monstre;
     private TextView gold;
+    private TextView kill;
     private AnimationDrawable animation;
 
     private MonsterList monsterList;
@@ -62,6 +63,7 @@ public class GameActivity extends AppCompatActivity {
     private Runnable attaquerRunnable;
     public static final String CHANNEL_1_ID = "channel1";
     private NotificationManagerCompat notificationManagerCompat;
+    private int monsterKill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,8 @@ public class GameActivity extends AppCompatActivity {
         this.notificationManagerCompat = NotificationManagerCompat.from(this);
 
         sendOnChannel1();
+
+        monsterKill = 0;
 
         DatabaseSQLite db = new DatabaseSQLite(this);
 
@@ -131,6 +135,10 @@ public class GameActivity extends AppCompatActivity {
                     db.updateJoueurGold(1, updateGold);
                     j.setGold(updateGold);
                     gold.setText(j.getGold() + "");
+
+                    monsterKill++;
+                    kill.setText(""+monsterKill);
+
                     if (monsterList.getCurrentIndex() < monsterList.getNumberOfMonstres() - 1) {
                         monsterList.nextMonster();
                         Monster newCurrentMonster = monsterList.getCurrentMonstre();
@@ -170,6 +178,21 @@ public class GameActivity extends AppCompatActivity {
         };
         handler.postDelayed(attaquerRunnable, 5000);
 
+    }
+
+    private void initView() {
+        gamePanel = findViewById(R.id.game_panel);
+        nom_monstre = findViewById(R.id.nom_monstre);
+        monstre_healthbar = findViewById(R.id.monstre_healthbar);
+        image_monstre = findViewById(R.id.image_monstre);
+        gold = findViewById(R.id.gold);
+        hero_healthbar = findViewById(R.id.hero_healthbar);
+        heroImage = findViewById(R.id.hero_image);
+        heroImage.setBackgroundResource(R.drawable.knight_animation);
+        animation = (AnimationDrawable) heroImage.getBackground();
+        changeBackground = findViewById(R.id.changeBackground);
+        stat = findViewById(R.id.stat);
+        kill = findViewById(R.id.kill);
     }
 
     @Override
@@ -222,20 +245,6 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void initView() {
-        gamePanel = findViewById(R.id.game_panel);
-        nom_monstre = findViewById(R.id.nom_monstre);
-        monstre_healthbar = findViewById(R.id.monstre_healthbar);
-        image_monstre = findViewById(R.id.image_monstre);
-        gold = findViewById(R.id.gold);
-        hero_healthbar = findViewById(R.id.hero_healthbar);
-        heroImage = findViewById(R.id.hero_image);
-        heroImage.setBackgroundResource(R.drawable.knight_animation);
-        animation = (AnimationDrawable) heroImage.getBackground();
-        changeBackground = findViewById(R.id.changeBackground);
-        stat = findViewById(R.id.stat);
     }
 
     private void gameOver() {
