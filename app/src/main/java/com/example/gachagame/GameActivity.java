@@ -1,5 +1,6 @@
 package com.example.gachagame;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,14 +12,10 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -41,12 +38,11 @@ import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int REQUEST_IMAGE_PERMISSION = 100;
     private LinearLayout gamePanel;
     private TextView nom_monstre;
     private ProgressBar monstre_healthbar;
@@ -57,8 +53,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView kill;
     private AnimationDrawable animation;
     private MonsterList monsterList;
-    private Button changeBackground;
-    private Button stat;
+    private ImageView parameter;
     private Dialog dialog;
     private Handler handler;
     private Runnable attaquerRunnable;
@@ -91,26 +86,18 @@ public class GameActivity extends AppCompatActivity {
         monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
         Monster m = monsterList.getCurrentMonstre();
 
+
         initView();
 
-        stat.setOnClickListener(new View.OnClickListener() {
+        parameter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GameActivity.this,UpgradeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        changeBackground.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                mediaPlayer.stop();
+                dialog.setCancelable(false);
                 dialog.show();
                 isDialogOpen = true;
             }
         });
-
-        //Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        //startActivityForResult(intent, PICK_IMAGE_REQUEST);
 
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -204,6 +191,8 @@ public class GameActivity extends AppCompatActivity {
 
     //initialisation des différents vue
     private void initView() {
+
+        //initialisation des vues avec le xml
         gamePanel = findViewById(R.id.game_panel);
         nom_monstre = findViewById(R.id.nom_monstre);
         monstre_healthbar = findViewById(R.id.monstre_healthbar);
@@ -212,12 +201,65 @@ public class GameActivity extends AppCompatActivity {
         hero_healthbar = findViewById(R.id.hero_healthbar);
         heroImage = findViewById(R.id.hero_image);
         heroImage.setBackgroundResource(R.drawable.knight_animation);
-        animation = (AnimationDrawable) heroImage.getBackground();
-        changeBackground = findViewById(R.id.changeBackground);
-        stat = findViewById(R.id.stat);
+        parameter = findViewById(R.id.parameter);
         kill = findViewById(R.id.kill);
+
+        //ajout de l'animation pour mon chevalier
+        animation = (AnimationDrawable) heroImage.getBackground();
+
+        //initialisation du dialog
+        initDialog();
+    }
+
+
+    private void initDialog() {
+
+        //création du dialog pour avoir le menu paramètre
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.parameter_pop_up);
+
+        Button resume = dialog.findViewById(R.id.resume);
+
+        resume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer = MediaPlayer.create(GameActivity.this, R.raw.battle_music);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
+                dialog.dismiss();
+            }
+        });
+
+        Button upgrade = dialog.findViewById(R.id.upgrade);
+
+        upgrade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameActivity.this,UpgradeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button backgroud = dialog.findViewById(R.id.background);
+
+        backgroud.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                askPermissionAndOpenGallery();
+            }
+        });
+
+        Button home = dialog.findViewById(R.id.home);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                finish();
+                Intent intent = new Intent(GameActivity.this,MainActivity.class);
+                startActivityForResult(intent,2);
+            }
+        });
     }
 
     //animation du personnage
@@ -262,11 +304,38 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void askPermissionAndOpenGallery() {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            int readPermission = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (readPermission != PackageManager.PERMISSION_GRANTED) {
+                this.requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_IMAGE_PERMISSION);
+                return;
+            }
+        }
+        this.openGallery();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_IMAGE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                this.openGallery();
+            } else {
+                Toast.makeText(this, "You can't access the gallery", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
             Uri uri = data.getData();
             try {
                 Drawable drawable = Drawable.createFromStream(getContentResolver().openInputStream(uri), uri.toString());

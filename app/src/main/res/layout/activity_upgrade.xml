@@ -21,22 +21,30 @@
             android:layout_gravity="center"
             android:layout_margin="20dp"/>
 
+        <TextView
+            android:id="@+id/number_gold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:text="Gold : "/>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="294dp"
+            android:layout_height="242dp"
             android:layout_gravity="center"
-            android:background="#FFC107"
             android:layout_margin="10dp"
+            android:background="#FFC107"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
                 android:text="Statistics :"
                 android:textSize="25dp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"/>
+                android:textStyle="bold" />
 
 
             <LinearLayout
@@ -115,6 +123,14 @@
                 android:layout_margin="10dp"
                 android:text="increase"/>
 
+            <TextView
+                android:id="@+id/hp_cost_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="20dp"
+                android:text="Cost : "/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -136,6 +152,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="increase"/>
+
+            <TextView
+                android:id="@+id/atk_cost_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="20dp"
+                android:text="Cost : "/>
 
         </LinearLayout>
     </LinearLayout>

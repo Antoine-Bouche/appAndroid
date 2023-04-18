@@ -5,7 +5,6 @@ public class Joueur {
     private int id;
     private int hp;
     private int atk;
-    private Competence[] listeCompetence;
     private int gold;
 
     private final int hpDuDepart = 50;
@@ -15,8 +14,6 @@ public class Joueur {
         this.id = id;
         this.hp = hp;
         this.atk = atk;
-        this.id = id;
-        this.listeCompetence = new Competence[4];
         this.gold = 0;
     }
 
@@ -25,7 +22,6 @@ public class Joueur {
         this.hp = hp;
         this.atk = atk;
         this.id = id;
-        this.listeCompetence = new Competence[4];
         this.gold = gold;
     }
 
@@ -51,14 +47,6 @@ public class Joueur {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Competence[] getListeCompétence() {
-        return listeCompetence;
-    }
-
-    public void setListeCompétence(Competence[] listeCompetence) {
-        this.listeCompetence = listeCompetence;
     }
 
     public int getGold() {

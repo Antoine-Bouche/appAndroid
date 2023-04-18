@@ -73,15 +73,14 @@
                 android:layout_marginBottom="15dp"
                 android:src="@drawable/monster_icon" />
 
-
-            <Button
-                android:id="@+id/changeBackground"
-                android:layout_width="177dp"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/parameter"
+                android:layout_width="39dp"
+                android:layout_height="47dp"
                 android:layout_gravity="right"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="100dp"
                 android:backgroundTint="@color/teal_700"
-                android:text="Change Background" />
+                android:src="@drawable/setting" />
 
         </LinearLayout>
 
@@ -158,14 +157,6 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-
-            <Button
-                android:id="@+id/stat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:backgroundTint="@color/teal_700"
-                android:text="Upgrade stat" />
 
         </LinearLayout>
 
