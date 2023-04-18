@@ -74,7 +74,7 @@ public class UpgradeActivity extends AppCompatActivity {
                     player.setGold(newMoney);
                     goldTextView.setText("Gold : "+player.getGold());
                     db.updateJoueurGold(1,newMoney);
-                    int newHP = player.getHp() + 10;
+                    int newHP = player.getHp() + 15;
                     db.updateJoueurHp(1,newHP);
                     player.setHp(newHP);
                     Toast.makeText(UpgradeActivity.this, "HP INCREASE", Toast.LENGTH_SHORT).show();
@@ -101,7 +101,7 @@ public class UpgradeActivity extends AppCompatActivity {
                     player.setGold(newMoney);
                     goldTextView.setText("Gold : "+player.getGold());
                     db.updateJoueurGold(1,newMoney);
-                    int newATK = player.getAtk() + 20;
+                    int newATK = player.getAtk() + 3;
                     db.updateJoueurAtk(1,newATK);
                     player.setAtk(newATK);
                     Toast.makeText(UpgradeActivity.this, "ATK INCREASE", Toast.LENGTH_SHORT).show();

@@ -93,7 +93,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="235dp"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 
@@ -102,32 +102,33 @@
                     android:layout_width="142dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="30dp"
                     android:background="#009688"
                     android:text="Sample data"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:layout_margin="30dp"
                     android:textSize="20dp" />
 
                 <ImageView
                     android:id="@+id/image_monstre"
-                    android:layout_width="119dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="30dp"
-                    android:scaleType="fitXY" />
-
-                <ProgressBar
-                    android:id="@+id/monstre_healthbar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="300dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:backgroundTint="#555555"
-                    android:max="100"
-                    android:progressTint="#4CAF50"
-                    android:scaleY="5" />
+                    android:layout_margin="30dp" />
+
             </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/monstre_healthbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#555555"
+                android:max="100"
+                android:layout_margin="10dp"
+                android:progressTint="#4CAF50"
+                android:scaleY="5" />
 
             <ImageView
                 android:id="@+id/hero_image"

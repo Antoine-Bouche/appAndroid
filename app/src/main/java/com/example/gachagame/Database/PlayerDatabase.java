@@ -47,7 +47,7 @@ public class PlayerDatabase extends SQLiteOpenHelper {
     public void createDefaultJoueurIfNeed() {
         int count = this.getJoueurCount();
         if(count==0) {
-            Joueur joueur = new Joueur(1,500,5,0);
+            Joueur joueur = new Joueur(1,999,999,60000);
             this.addJoueur(joueur);
         }
     }
