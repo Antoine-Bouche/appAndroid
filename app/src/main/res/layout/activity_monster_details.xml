@@ -9,14 +9,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="40dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        tools:context=".MonsterDetailsActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:layout_margin="10dp"
+            android:layout_gravity="center"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:text="Monster description : " />
@@ -163,6 +175,12 @@
             android:layout_margin="10dp"
             android:scaleType="centerCrop"/>
 
+        </LinearLayout>
+
+    </ScrollView>
+
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

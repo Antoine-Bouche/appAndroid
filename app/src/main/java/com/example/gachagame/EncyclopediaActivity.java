@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gachagame.Adapter.MonsterAdapter;
 import com.example.gachagame.Database.DatabaseSQLite;
 import com.example.gachagame.Database.MonsterDatabaseHelper;
 import com.example.gachagame.Models.Monster;
@@ -38,16 +39,7 @@ public class EncyclopediaActivity extends AppCompatActivity {
 
         monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
 
-        HashSet<String> monsterNames = new HashSet<>();
-        for (Monster monster : monsterList.getMonsterList()) {
-            monsterNames.add(monster.getName());
-        }
-
-        ArrayList<String> uniqueMonsterNames = new ArrayList<>(monsterNames);
-
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, uniqueMonsterNames);
-        encyclopedia.setAdapter(arrayAdapter);
-
+        encyclopedia.setAdapter(new MonsterAdapter(this,monsterList.getMonsterList()));
         encyclopedia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

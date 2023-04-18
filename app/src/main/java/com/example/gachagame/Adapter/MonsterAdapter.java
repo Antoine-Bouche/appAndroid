@@ -1,11 +1,14 @@
 package com.example.gachagame.Adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.example.gachagame.Models.Monster;
+import com.example.gachagame.R;
 
 import java.util.List;
 
@@ -36,6 +39,14 @@ public class MonsterAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+
+        if (view == null) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.monster_item, viewGroup, false);
+        }
+
+        TextView name = view.findViewById(R.id.monster_name);
+        name.setText(monster_list.get(i).getName());
+
+        return view;
     }
 }
