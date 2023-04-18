@@ -23,9 +23,6 @@
             android:name=".UpgradeActivity"
             android:exported="false" />
         <activity
-            android:name=".AmeliorationActivity"
-            android:exported="false" />
-        <activity
             android:name=".MonsterDetailsActivity"
             android:exported="false" />
         <activity

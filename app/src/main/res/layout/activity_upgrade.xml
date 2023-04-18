@@ -34,7 +34,7 @@
             android:layout_height="242dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="#FFC107"
+            android:background="#7185A5"
             android:orientation="vertical">
 
             <TextView

@@ -38,6 +38,9 @@ import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -83,9 +86,20 @@ public class GameActivity extends AppCompatActivity {
 
         monsterDatabase.createDefaultMonsterIfNeed();
 
-        monsterList = new MonsterList(monsterDatabase.getAllMonsters());
-        Monster m = monsterList.getCurrentMonstre();
+        List<Monster> monstreDb = monsterDatabase.getAllMonsters();
 
+        List<Monster> randomMonsters = new ArrayList<>();
+
+        Random random = new Random();
+
+        while (randomMonsters.size() < 1000) {
+            int randomIndex = random.nextInt(monstreDb.size());
+            Monster randomMonster = monstreDb.get(randomIndex);
+            randomMonsters.add(randomMonster);
+        }
+
+        monsterList = new MonsterList(randomMonsters);
+        Monster m = monsterList.getCurrentMonstre();
 
         initView();
 
