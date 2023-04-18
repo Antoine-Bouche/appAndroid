@@ -56,12 +56,7 @@ public class MonsterDatabase extends SQLiteOpenHelper {
     public void createDefaultMonsterIfNeed() {
         int count = this.getMonsterCount();
         if(count==0) {
-            Monster m2 = new Monster(2,"Djin",150,20,40,"A djinn is a certain type of spirit in Islam, similar to an angel. \nMany Muslims believe that a djinn can take the form of an animal or a human.",R.drawable.monster5);
-            this.addMonster(m2);
-            Monster m = new Monster(1,"Demon",50,5,5,"A demon is a malevolent supernatural entity.", R.drawable.monster5);
-            this.addMonster(m);
-            Monster m3 = new Monster(3,"Gorgon",150,20,40,"Gorgons are powerful female creatures with hair made of living snakes and can turn people into stone by looking at them.", R.drawable.monster5);
-            this.addMonster(m3);
+
         }
     }
 
