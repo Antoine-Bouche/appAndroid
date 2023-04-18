@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,8 +16,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,7 +46,6 @@ import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
-
     private static final int PICK_IMAGE_REQUEST = 1;
     private LinearLayout gamePanel;
     private TextView nom_monstre;
@@ -53,29 +56,31 @@ public class GameActivity extends AppCompatActivity {
     private TextView gold;
     private TextView kill;
     private AnimationDrawable animation;
-
     private MonsterList monsterList;
-
     private Button changeBackground;
     private Button stat;
-
+    private Dialog dialog;
     private Handler handler;
     private Runnable attaquerRunnable;
     public static final String CHANNEL_1_ID = "channel1";
     private NotificationManagerCompat notificationManagerCompat;
-    private int monsterKill;
+    private int monsterKill = 0;
+    private boolean isDialogOpen = false;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.battle_music);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+
         this.createNotificationChannels();
         this.notificationManagerCompat = NotificationManagerCompat.from(this);
 
         sendOnChannel1();
-
-        monsterKill = 0;
 
         DatabaseSQLite db = new DatabaseSQLite(this);
 
@@ -99,8 +104,19 @@ public class GameActivity extends AppCompatActivity {
         changeBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+                dialog.show();
+                isDialogOpen = true;
+            }
+        });
+
+        //Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        //startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                isDialogOpen = false;
+                handler.postDelayed(attaquerRunnable, 3000);
             }
         });
 
@@ -158,21 +174,27 @@ public class GameActivity extends AppCompatActivity {
         attaquerRunnable = new Runnable() {
             @Override
             public void run() {
-                Monster monstreCourant = monsterList.getCurrentMonstre();
+                if (!isDialogOpen) { // Condition si le dialog est fermer
+                    Monster monstreCourant = monsterList.getCurrentMonstre();
 
-                int newPV = j.getHp() - monstreCourant.getAtk();
-                j.setHp(newPV);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        hero_healthbar.setProgress(newPV);
+                    int newPV = j.getHp() - monstreCourant.getAtk();
+                    j.setHp(newPV);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hero_healthbar.setProgress(newPV);
+                        }
+                    });
+
+                    if (newPV <= 0) { //si le personnage meurs alors le runnable s'exécute plus
+                        handler.removeCallbacks(attaquerRunnable);
+                        gameOver();
+                    } else {
+                        handler.postDelayed(this, 3000);
                     }
-                });
-                if (newPV <= 0) {
-                    handler.removeCallbacks(attaquerRunnable);
-                    gameOver();
                 } else {
-                    handler.postDelayed(this, 3000);
+                    handler.removeCallbacks(attaquerRunnable); // Arrêtez l'exécution de Runnable
                 }
             }
         };
@@ -180,6 +202,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    //initialisation des différents vue
     private void initView() {
         gamePanel = findViewById(R.id.game_panel);
         nom_monstre = findViewById(R.id.nom_monstre);
@@ -193,14 +216,18 @@ public class GameActivity extends AppCompatActivity {
         changeBackground = findViewById(R.id.changeBackground);
         stat = findViewById(R.id.stat);
         kill = findViewById(R.id.kill);
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.parameter_pop_up);
     }
 
+    //animation du personnage
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         animation.start();
     }
 
+    //fin du jeu quand le héro game
     private void endGame() {
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
 
@@ -230,6 +257,9 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         handler.removeCallbacks(attaquerRunnable);
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
     }
 
     @Override
@@ -247,6 +277,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    //fin du jeu quand le héro perd
     private void gameOver() {
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
 
@@ -267,6 +298,7 @@ public class GameActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    //animation d'attaque du chevalier
     private void knightAttackAnimation() {
         animation = (AnimationDrawable) getResources().getDrawable(R.drawable.attack_animation, null);
         animation.setOneShot(true);
@@ -275,6 +307,7 @@ public class GameActivity extends AppCompatActivity {
         animation.setOneShot(true);
     }
 
+    //notificaiton
     private void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel1 = new NotificationChannel(
@@ -288,6 +321,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    //envoie de la notification
     private void sendOnChannel1() {
 
         String title = "Welcome";

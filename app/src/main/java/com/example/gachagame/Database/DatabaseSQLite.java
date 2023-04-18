@@ -112,7 +112,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_GOLD, hp);
+        values.put(COLUMN_HP, hp);
 
         db.update(TABLE_JOUEUR, values, COLUMN_JOUEUR_ID + "=?", new String[]{String.valueOf(id)});
 
@@ -127,7 +127,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_GOLD, atk);
+        values.put(COLUMN_ATK, atk);
 
         db.update(TABLE_JOUEUR, values, COLUMN_JOUEUR_ID + "=?", new String[]{String.valueOf(id)});
 

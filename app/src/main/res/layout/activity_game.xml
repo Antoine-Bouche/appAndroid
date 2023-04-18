@@ -107,13 +107,15 @@
                     android:text="Sample data"
                     android:textAlignment="center"
                     android:textColor="@color/white"
+                    android:layout_margin="30dp"
                     android:textSize="20dp" />
 
                 <ImageView
                     android:id="@+id/image_monstre"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="119dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
+                    android:layout_margin="30dp"
                     android:scaleType="fitXY" />
 
                 <ProgressBar
