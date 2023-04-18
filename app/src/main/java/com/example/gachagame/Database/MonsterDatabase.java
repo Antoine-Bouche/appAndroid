@@ -13,7 +13,7 @@ import com.example.gachagame.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonsterDatabaseHelper extends SQLiteOpenHelper {
+public class MonsterDatabase extends SQLiteOpenHelper {
 
     private static final String TAG = "SQLite";
     private static final int DATABASE_VERSION = 1;
@@ -27,7 +27,7 @@ public class MonsterDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_IMAGE_ID = "imageId";
 
-    public MonsterDatabaseHelper(Context context) {
+    public MonsterDatabase(Context context) {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 

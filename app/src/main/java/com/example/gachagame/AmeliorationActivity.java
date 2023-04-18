@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.gachagame.Database.DatabaseSQLite;
+import com.example.gachagame.Database.PlayerDatabase;
 import com.example.gachagame.Models.Joueur;
 
 public class AmeliorationActivity extends AppCompatActivity {
@@ -28,7 +28,7 @@ public class AmeliorationActivity extends AppCompatActivity {
         costTextAtk = findViewById(R.id.cost_atk);
 
 
-        DatabaseSQLite db = new DatabaseSQLite(this);
+        PlayerDatabase db = new PlayerDatabase(this);
         db.createDefaultJoueurIfNeed();
         Joueur j = db.getJoueur(1);
 

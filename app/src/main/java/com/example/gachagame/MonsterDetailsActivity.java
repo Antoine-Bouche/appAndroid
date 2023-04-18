@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.gachagame.Database.MonsterDatabaseHelper;
+import com.example.gachagame.Database.MonsterDatabase;
 import com.example.gachagame.Models.Monster;
 
 import java.util.Locale;
@@ -34,7 +34,7 @@ public class MonsterDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monster_details);
 
-        MonsterDatabaseHelper db = new MonsterDatabaseHelper(this);
+        MonsterDatabase db = new MonsterDatabase(this);
 
         name = findViewById(R.id.nomD);
         hp = findViewById(R.id.hpD);

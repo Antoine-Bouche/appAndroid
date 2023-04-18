@@ -31,8 +31,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gachagame.Database.DatabaseSQLite;
-import com.example.gachagame.Database.MonsterDatabaseHelper;
+import com.example.gachagame.Database.PlayerDatabase;
+import com.example.gachagame.Database.MonsterDatabase;
 import com.example.gachagame.Models.Joueur;
 import com.example.gachagame.Models.Monster;
 import com.example.gachagame.Models.MonsterList;
@@ -77,13 +77,13 @@ public class GameActivity extends AppCompatActivity {
 
         sendOnChannel1();
 
-        DatabaseSQLite db = new DatabaseSQLite(this);
+        PlayerDatabase db = new PlayerDatabase(this);
 
-        MonsterDatabaseHelper monsterDatabaseHelper = new MonsterDatabaseHelper(this);
+        MonsterDatabase monsterDatabase = new MonsterDatabase(this);
 
-        monsterDatabaseHelper.createDefaultMonsterIfNeed();
+        monsterDatabase.createDefaultMonsterIfNeed();
 
-        monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
+        monsterList = new MonsterList(monsterDatabase.getAllMonsters());
         Monster m = monsterList.getCurrentMonstre();
 
 

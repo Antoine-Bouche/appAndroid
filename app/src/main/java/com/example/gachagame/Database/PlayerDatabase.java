@@ -8,13 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.gachagame.Models.Joueur;
-import com.example.gachagame.Models.Monster;
-import com.example.gachagame.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class DatabaseSQLite extends SQLiteOpenHelper {
+public class PlayerDatabase extends SQLiteOpenHelper {
 
     private static final String TAG = "SQLite";
     private static final int DATABASE_VERSION = 1;
@@ -26,7 +21,7 @@ public class DatabaseSQLite extends SQLiteOpenHelper {
     private static final String COLUMN_ATK = "atk";
     private static final String COLUMN_GOLD = "gold";
 
-    public DatabaseSQLite(Context context) {
+    public PlayerDatabase(Context context) {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 

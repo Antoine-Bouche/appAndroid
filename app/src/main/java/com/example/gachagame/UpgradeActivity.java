@@ -9,10 +9,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gachagame.Database.DatabaseSQLite;
+import com.example.gachagame.Database.PlayerDatabase;
 import com.example.gachagame.Models.Joueur;
-
-import org.w3c.dom.Text;
 
 public class UpgradeActivity extends AppCompatActivity {
 
@@ -36,7 +34,7 @@ public class UpgradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrade);
 
-        DatabaseSQLite db = new DatabaseSQLite(this);
+        PlayerDatabase db = new PlayerDatabase(this);
 
         Joueur player = db.getJoueur(1);
 

@@ -5,29 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gachagame.Adapter.MonsterAdapter;
-import com.example.gachagame.Database.DatabaseSQLite;
-import com.example.gachagame.Database.MonsterDatabaseHelper;
-import com.example.gachagame.Models.Monster;
+import com.example.gachagame.Database.MonsterDatabase;
 import com.example.gachagame.Models.MonsterList;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 
 public class EncyclopediaActivity extends AppCompatActivity {
     private MonsterList monsterList;
     private ListView encyclopedia;
-    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -35,9 +25,9 @@ public class EncyclopediaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_encyclopedia);
         encyclopedia = findViewById(R.id.listView);
 
-        MonsterDatabaseHelper monsterDatabaseHelper = new MonsterDatabaseHelper(this);
+        MonsterDatabase monsterDatabase = new MonsterDatabase(this);
 
-        monsterList = new MonsterList(monsterDatabaseHelper.getAllMonsters());
+        monsterList = new MonsterList(monsterDatabase.getAllMonsters());
 
         encyclopedia.setAdapter(new MonsterAdapter(this,monsterList.getMonsterList()));
         encyclopedia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -46,10 +36,8 @@ public class EncyclopediaActivity extends AppCompatActivity {
 
                 int monsterId = monsterList.getMonsterList().get(position).getId();
 
-
                 Intent intent = new Intent(EncyclopediaActivity.this, MonsterDetailsActivity.class);
                 intent.putExtra("monsterId", monsterId);
-                Toast.makeText(EncyclopediaActivity.this, "ID : " + monsterId , Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
